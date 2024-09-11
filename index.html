@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>T-Shirt Order Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 20px; /* Added padding for spacing */
+      background: linear-gradient(270deg, #ff7e5f, #feb47b, #86e3ce, #d4fc79, #96e6a1);
+      background-size: 150% 150%;
+      animation: moveGradient 8s ease infinite;
+    }
+
+    @keyframes moveGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #9b1f9d;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    form {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      margin: 0 auto; /* Center the form */
+    }
+
+    fieldset {
+      border: none;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: #fff;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    input.inline {
+      margin-right: 5px;
+    }
+
+    a {
+      color: #00f;
+      text-decoration: underline;
+    }
+
+    #receipt {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: inline-block;
+      color: #fff;
+    }
+
+    #receipt h2 {
+      color: #28a745;
+    }
+
+    legend {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+
+  <script>
+    function validateForm() {
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('new-password').value;
+      const bio = document.getElementById('bio').value;
+      const age = document.getElementById('age').value;
+      const mobile = document.getElementById('mobile').value;
+
+      // Check if mobile number has 9 digits
+      if (mobile.length !== 10 || isNaN(mobile)) {
+        alert("Mobile number must be 10 digits.");
+        return false;
+      }
+
+      // Check if the bio/message has more than 50 characters
+      if (bio.length > 50) {
+        alert("Bio/message should not exceed 50 characters.");
+        return false;
+      }
+
+      // Age validation
+      if (age < 13 || age > 120) {
+        alert("Please enter a valid age between 13 and 120.");
+        return false;
+      }
+
+      // Validate all fields are filled out (can add more checks as needed)
+      if (!firstName || !lastName || !email || !password) {
+        alert("All fields are required.");
+        return false;
+      }
+
+      // If all validations pass, submit the form
+      generateReceipt();
+      return false; // Prevent default form submission for custom handling
+    }
+
+    function generateReceipt() {
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const email = document.getElementById('email').value;
+      const tShirtColor = document.getElementById('referrer').options[document.getElementById('referrer').selectedIndex].text;
+      const date = new Date();
+
+      // Create receipt details
+      const receipt = `
+        <h2>Order Confirmation</h2>
+        <p>Thank you, ${firstName} ${lastName}, for your order.</p>
+        <p>Email: ${email}</p>
+        <p>T-Shirt Color: ${tShirtColor}</p>
+        <p>Order Date: ${date.toDateString()}</p>
+        <p>Order Time: ${date.toLocaleTimeString()}</p>
+        <p>Your order has been successfully received!</p>
+      `;
+
+      // Display receipt
+      document.getElementById('receipt').innerHTML = receipt;
+    }
+  </script>
+</head>
+<body>
+  <h1>T-Shirt Order Form</h1>
+  <p>Please fill out this form for T-Shirts Survey</p>
+  <form onsubmit="return validateForm()">
+    <fieldset>
+      <legend>Personal Information</legend>
+      <label for="first-name">Enter Your First Name:</label>
+      <input id="first-name" name="first-name" type="text" required />
+
+      <label for="last-name">Enter Your Last Name:</label>
+      <input id="last-name" name="last-name" type="text" required />
+
+      <label for="email">Enter Your Email:</label>
+      <input id="email" name="email" type="email" required />
+
+      <label for="new-password">Create a New Password:</label>
+      <input id="new-password" name="new-password" type="password" pattern="[a-z0-5]{8,}" required />
+
+      <label for="mobile">Enter Your Mobile Number:</label>
+      <input id="mobile" name="mobile" type="text" required />
+    </fieldset>
+
+    <fieldset>
+      <legend>Account Information</legend>
+      <label for="personal-account">
+        <input id="personal-account" type="radio" name="account-type" class="inline" checked /> Personal
+      </label>
+      <label for="business-account">
+        <input id="business-account" type="radio" name="account-type" class="inline" /> Business
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Additional Information</legend>
+      <label for="profile-picture">Upload a profile picture:</label>
+      <input id="profile-picture" type="file" name="file" />
+
+      <label for="age">Input your age (years):</label>
+      <input id="age" type="number" name="age" min="13" max="120" />
+
+      <label for="referrer">Which color T-shirt do you love to wear?</label>
+      <select id="referrer" name="referrer">
+        <option value="">(select one)</option>
+        <option value="1">Yellow</option>
+        <option value="2">Red</option>
+        <option value="3">Black</option>
+        <option value="4">White</option>
+      </select>
+
+      <label for="bio">Provide a bio (max 50 characters):</label>
+      <textarea id="bio" name="bio" rows="3" cols="30" placeholder="I love T-shirts..."></textarea>
+    </fieldset>
+
+    <label for="terms-and-conditions">
+      <input class="inline" id="terms-and-conditions" type="checkbox" required name="terms-and-conditions" /> I accept the <a href="https://www.termsandconditionsgenerator.com/live.php?token=sIPhwxP9TCkCyZLOOWIKz5LYXIrPJPsW" target="_blank">terms and conditions</a>
+    </label>
+
+    <br /><br />
+    <input type="submit" value="Submit" />
+  </form>
+
+  <div id="receipt"></div>
+</body>
+</html>
